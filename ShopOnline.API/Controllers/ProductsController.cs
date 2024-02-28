@@ -53,7 +53,7 @@ namespace ShopOnline.API.Controllers
                     return NotFound();
                 }
 
-                var productCategory = await _productRepository.GetCategory(id);
+                var productCategory = await _productRepository.GetCategory(product.CategoryId);
 
                 var productDtO = product.ConvertToDto(productCategory!);
 

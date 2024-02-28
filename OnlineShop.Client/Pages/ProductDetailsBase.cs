@@ -15,6 +15,9 @@ public class ProductDetailsBase:ComponentBase
     [Inject]
     public IShoppingCartService ShoppingCartService { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     protected ProductDto? Product { get; set; }
 
     protected string? ErrorMessage { get; set; }
@@ -36,6 +39,7 @@ public class ProductDetailsBase:ComponentBase
         try
         {
             var cartItemDto = await ShoppingCartService.AddItem(model);
+            NavigationManager.NavigateTo("/ShoppingCart");
 
         }
         catch (Exception e)

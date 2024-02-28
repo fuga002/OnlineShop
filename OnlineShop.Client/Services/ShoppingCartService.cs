@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
 using OnlineShop.Client.Services.Interfaces;
 using ShopOnline.Common.DTOs;
 
@@ -39,21 +39,48 @@ public class ShoppingCartService: IShoppingCartService
 
     public async Task<CartItemDto?> AddItem(CreateCartItemDto model)
     {
-        var response = await _httpClient.PostAsJsonAsync<CreateCartItemDto>("api/ShoppingCart",model);
-
-        if (response.IsSuccessStatusCode)
+        try
         {
-            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+            var response = await _httpClient.PostAsJsonAsync<CreateCartItemDto>("/api/ShoppingCarts", model);
+
+            if (response.IsSuccessStatusCode)
             {
-                return default(CartItemDto);
+                if (response.StatusCode == HttpStatusCode.NoContent)
+                {
+                    return default(CartItemDto);
+                }
+
+                return await response.Content.ReadFromJsonAsync<CartItemDto>();
             }
 
-            return await response.Content.ReadFromJsonAsync<CartItemDto>();
+            var message = await response.Content.ReadAsStringAsync();
+            throw new Exception($"Http status:{response.StatusCode} Message -{message}");
+
         }
-
-        var message = await response.Content.ReadAsStringAsync();
-        throw new Exception($"Http status:{response.StatusCode} Message -{message}");
-
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
+    public async Task<CartItemDto?> DeleteItem(int id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/ShoppingCarts/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<CartItemDto>();
+            }
+
+            return default(CartItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

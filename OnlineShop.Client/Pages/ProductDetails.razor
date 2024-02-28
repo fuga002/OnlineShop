@@ -26,7 +26,11 @@ else
         </p>
         <div>
             <button class="btn btn-success"
-            @onclick="() => AddToCart_Click(new CreateCartItemDto())"
+                    @onclick="() => AddToCart_Click(new CreateCartItemDto(){
+                        CartId = HardCoded.CartId,
+                        ProductId = Product.Id,
+                        Qty = 1
+                    })"
                     ><b>Add to Cart</b></button>
         </div>
     </div>

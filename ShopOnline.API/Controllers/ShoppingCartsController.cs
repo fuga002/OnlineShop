@@ -76,6 +76,7 @@ public class ShoppingCartsController : ControllerBase
         }
     }
 
+    [HttpPost]
     public async Task<IActionResult> AddItem([FromBody] CreateCartItemDto model)
     {
         try
@@ -97,6 +98,33 @@ public class ShoppingCartsController : ControllerBase
         }
         catch (Exception e)
         {
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+        }
+    }
+
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteItem(int id)
+    {
+        try
+        {
+            var cartItem = await _shoppingCartRepository.DeleteItem(id);
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _productRepository.GetProduct(cartItem.ProductId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var cartItemDto = cartItem.ConvertToDto(product);
+            return Ok(cartItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }

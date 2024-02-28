@@ -6,4 +6,5 @@ public interface IShoppingCartService
 {
     Task<IEnumerable<CartItemDto>?> GetItems(int userId);
     Task<CartItemDto?> AddItem(CreateCartItemDto model);
+    Task<CartItemDto?> DeleteItem(int id);
 }

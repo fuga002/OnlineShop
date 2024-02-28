@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Client", "OnlineShop.Client\OnlineShop.Client.csproj", "{51604281-4459-40DA-9D69-2CC2ADAB1447}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Client", "OnlineShop.Client\OnlineShop.Client.csproj", "{51604281-4459-40DA-9D69-2CC2ADAB1447}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopOnline.API", "ShopOnline.API\ShopOnline.API.csproj", "{AE698E1C-7FD1-432B-B217-786281EBFA02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopOnline.API", "ShopOnline.API\ShopOnline.API.csproj", "{AE698E1C-7FD1-432B-B217-786281EBFA02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Data", "OnlineShop.Data\OnlineShop.Data.csproj", "{94BA5A76-429E-45F4-853C-409808515365}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Data", "OnlineShop.Data\OnlineShop.Data.csproj", "{94BA5A76-429E-45F4-853C-409808515365}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopOnline.Common", "ShopOnline.Common\ShopOnline.Common.csproj", "{24841BB4-8758-41E3-94C7-89C081DD410C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopOnline.Common", "ShopOnline.Common\ShopOnline.Common.csproj", "{24841BB4-8758-41E3-94C7-89C081DD410C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
