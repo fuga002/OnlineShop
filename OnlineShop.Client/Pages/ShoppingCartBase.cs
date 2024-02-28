@@ -10,7 +10,7 @@ public class ShoppingCartBase:ComponentBase
     [Inject]
     public IShoppingCartService ShoppingCartService { get; set; }
 
-    protected IEnumerable<CartItemDto>? ShoppingCartItems { get; set; }
+    protected List<CartItemDto>? ShoppingCartItems { get; set; }
 
     protected string? ErrorMessage { get; set; }
 
@@ -30,6 +30,18 @@ public class ShoppingCartBase:ComponentBase
     {
         var cartItemDto = await ShoppingCartService.DeleteItem(id);
 
+        RemoveCartItem(id);
+    }
+
+    private CartItemDto GetCartItem(int id)
+    {
+        return ShoppingCartItems.FirstOrDefault(i => i.Id == id);
+    }
+
+    private void RemoveCartItem(int id)
+    {
+        var cartItemDto = GetCartItem(id);
+        ShoppingCartItems.Remove(cartItemDto);
     }
 
 }

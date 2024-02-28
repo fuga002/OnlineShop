@@ -1,5 +1,4 @@
-﻿using System.Net;
-using OnlineShop.Client.Services.Interfaces;
+﻿using OnlineShop.Client.Services.Interfaces;
 using ShopOnline.Common.DTOs;
 
 namespace OnlineShop.Client.Services;
@@ -13,7 +12,7 @@ public class ShoppingCartService: IShoppingCartService
         _httpClient = httpClient;
     }
 
-    public async Task<IEnumerable<CartItemDto>?> GetItems(int userId)
+    public async Task<List<CartItemDto>?> GetItems(int userId)
     {
         try
         {
@@ -22,10 +21,10 @@ public class ShoppingCartService: IShoppingCartService
             {
                 if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                 {
-                    return Enumerable.Empty<CartItemDto>();
+                    return Enumerable.Empty<CartItemDto>().ToList();
                 }
 
-                return await response.Content.ReadFromJsonAsync<IEnumerable<CartItemDto>>();
+                return await response.Content.ReadFromJsonAsync<List<CartItemDto>>();
             }
             var message = await response.Content.ReadAsStringAsync();
             throw new Exception($"Http status:{response.StatusCode} Message -{message}");
@@ -39,29 +38,21 @@ public class ShoppingCartService: IShoppingCartService
 
     public async Task<CartItemDto?> AddItem(CreateCartItemDto model)
     {
-        try
+        var response = await _httpClient.PostAsJsonAsync<CreateCartItemDto>("/api/ShoppingCarts", model);
+
+        if (response.IsSuccessStatusCode)
         {
-            var response = await _httpClient.PostAsJsonAsync<CreateCartItemDto>("/api/ShoppingCarts", model);
-
-            if (response.IsSuccessStatusCode)
+            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
             {
-                if (response.StatusCode == HttpStatusCode.NoContent)
-                {
-                    return default(CartItemDto);
-                }
-
-                return await response.Content.ReadFromJsonAsync<CartItemDto>();
+                return default(CartItemDto);
             }
 
-            var message = await response.Content.ReadAsStringAsync();
-            throw new Exception($"Http status:{response.StatusCode} Message -{message}");
+            return await response.Content.ReadFromJsonAsync<CartItemDto>();
+        }
 
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        var message = await response.Content.ReadAsStringAsync();
+        throw new Exception($"Http status:{response.StatusCode} Message -{message}");
+
     }
 
     public async Task<CartItemDto?> DeleteItem(int id)

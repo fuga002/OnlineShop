@@ -128,4 +128,30 @@ public class ShoppingCartsController : ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
         }
     }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateQty(int id, UpdateCartItemQtyDto model)
+    {
+        try
+        {
+            var cartItem = await _shoppingCartRepository.UpdateQty(id, model);
+            if (cartItem == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _productRepository.GetProduct(cartItem.ProductId);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var cartItemDto = cartItem.ConvertToDto(product);
+            return Ok(cartItemDto);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving data from the database");
+        }
+    }
 }

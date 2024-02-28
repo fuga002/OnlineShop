@@ -45,9 +45,17 @@ public class ShoppingCartRepository: IShoppingCartRepository
         return null;
     }
 
-    public Task<CartItem> UpdateQty(int id, UpdateCartItemQtyDto item)
+    public async Task<CartItem?> UpdateQty(int id, UpdateCartItemQtyDto model)
     {
-        throw new NotImplementedException();
+        var item = await _context.CartItems.FindAsync(id);
+        if (item != null)
+        {
+            item.Qty = model.Qty;
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+        return null;
     }
 
     public async Task<CartItem?> DeleteItem(int id)
