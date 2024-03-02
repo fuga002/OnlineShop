@@ -7,4 +7,6 @@ public interface IShoppingCartService
     Task<List<CartItemDto>?> GetItems(int userId);
     Task<CartItemDto?> AddItem(CreateCartItemDto model);
     Task<CartItemDto?> DeleteItem(int id);
+
+    Task<CartItemDto?> UpdateQty(UpdateCartItemQtyDto model);
 }

@@ -129,7 +129,7 @@ public class ShoppingCartsController : ControllerBase
         }
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPatch("{id:int}")]
     public async Task<IActionResult> UpdateQty(int id, UpdateCartItemQtyDto model)
     {
         try
